@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>QCM Histoire</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body {
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      background: radial-gradient(circle at 65% 20%, #e3ebff 0%, #f1f5f9 100%);
+      color: #222;
+      margin: 0;
+      min-height: 100vh;
+    }
+    #container {
+      max-width: 550px;
+      margin: 44px auto;
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 8px 32px rgba(64,112,244,0.15), 0 1.5px 6px #e0e7ff;
+      padding: 38px 30px;
+      position: relative;
+      overflow: hidden;
+      animation: slideIn 0.7s;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(50px); opacity: 0;}
+      to { transform: translateY(0); opacity: 1;}
+    }
+    h1 {
+      text-align: center;
+      color: #245393;
+      margin-bottom: 16px;
+      font-weight: 700;
+      font-size: 2.1em;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 0 #e0e7ff;
+    }
+    .progress-bar {
+      width: 100%;
+      background: #e6eaf7;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      height: 22px;
+      box-shadow: 0 0.5px 3px #e0e7ff inset;
+      position: relative;
+      overflow: hidden;
+    }
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #245393 60%, #3e91ff 100%);
+      width: 0;
+      transition: width 0.5s cubic-bezier(.57,.22,.16,.99);
+      border-radius: 8px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 1;
+    }
+    .progress-text {
+      position: absolute;
+      right: 15px;
+      top: 2px;
+      font-size: 0.9em;
+      color: #245393;
+      font-weight: 600;
+      z-index: 2;
+      text-shadow: 0 1px 0 #fff;
+    }
+    .fade-in {
+      animation: fadeIn 0.5s;
+    }
+    .fade-out {
+      animation: fadeOut 0.45s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    @keyframes fadeOut {
+      from { opacity: 1;}
+      to { opacity: 0; }
+    }
+    @keyframes scorePop {
+      0% { transform: scale(0.7);}
+      60% { transform: scale(1.18);}
+      100% { transform: scale(1);}
+    }
+    .question {
+      font-size: 1.23em;
+      margin-bottom: 22px;
+      color: #245393;
+      background: linear-gradient(90deg, #e7f3ff 10%, #f9fafb 90%);
+      border-radius: 12px;
+      padding: 15px 16px;
+      box-shadow: 0 1px 8px #e0e7ff;
+      font-weight: 500;
+    }
+    .options label {
+      display: block;
+      margin: 13px 0;
+      padding: 11px 18px;
+      background: #f6fafd;
+      border-radius: 9px;
+      border: 1.2px solid #e4eaf2;
+      cursor: pointer;
+      transition: background 0.18s, border 0.18s;
+      font-weight: 400;
+      font-size: 1em;
+      position: relative;
+      box-shadow: 0 1px 6px #e0e7ff;
+    }
+    .options label input[type=radio] {
+      accent-color: #245393;
+      margin-right: 9px;
+      transform: scale(1.15);
+      vertical-align: middle;
+    }
+    .options label:hover {
+      background: #e9f1ff;
+      border-color: #245393;
+      box-shadow: 0 2px 8px #e0e7ff;
+    }
+    button {
+      background: linear-gradient(90deg, #245393 70%, #4e8cf7 100%);
+      color: #fff;
+      border: none;
+      padding: 13px 32px;
+      border-radius: 12px;
+      font-size: 1.09em;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 21px;
+      margin-right: 10px;
+      transition: background 0.2s, transform 0.12s;
+      box-shadow: 0 2px 14px rgba(64,112,244,0.10);
+      letter-spacing: 0.5px;
+      outline: none;
+      position: relative;
+      overflow: hidden;
+    }
+    button:active {
+      transform: scale(0.97);
+      background: #245393;
+    }
+    button.ripple {
+      background: #e5e7eb;
+      color: #245393;
+      border: 1.4px solid #e4eaf2;
+      box-shadow: none;
+    }
+    button.ripple:hover {
+      background: #e9f1ff;
+      color: #245393;
+      border: 1.4px solid #245393;
+    }
+    .ripple-effect {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple 0.5s linear;
+      background: rgba(76, 144, 247, 0.28);
+      pointer-events: none;
+      z-index: 2;
+    }
+    @keyframes ripple {
+      to { transform: scale(2.5); opacity: 0;}
+    }
+    .score {
+      font-size: 2.1em;
+      font-weight: bold;
+      color: #245393;
+      margin-bottom: 15px;
+      text-align: center;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 0 #e0e7ff;
+      animation: scorePop 0.8s;
+    }
+    .comment {
+      text-align: center;
+      font-size: 1.17em;
+      margin-top: 13px;
+      margin-bottom: 24px;
+      font-weight: 500;
+      color: #4e8cf7;
+      background: #f4f7fa;
+      border-radius: 10px;
+      padding: 13px 0;
+      box-shadow: 0 1px 10px #e0e7ff;
+    }
+    .result-details {
+      text-align:center;
+      margin: 10px 0 20px 0;
+      font-size: 1.08em;
+      color: #245393;
+    }
+    @media (max-width: 650px) {
+      #container {
+        padding: 14px;
+        border-radius: 13px;
+      }
+      h1 { font-size: 1.2em; }
+      .score { font-size: 1.2em;}
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>QCM d'Histoire</h1>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+      <span class="progress-text" id="progress-text"></span>
+    </div>
+    <div id="qcm"></div>
+  </div>
+  <script>
+    const questions = [
+      {
+        question: "Quelle année marque la chute de l’Empire romain d’Occident ?",
+        options: ["476", "800", "1492", "1789"],
+        answer: 0
+      },
+      {
+        question: "Qui fut couronné empereur en 1804 ?",
+        options: ["Louis XVI", "Napoléon Bonaparte", "Charlemagne", "Henri IV"],
+        answer: 1
+      },
+      {
+        question: "Quelle révolution débute en 1789 en France ?",
+        options: ["Révolution industrielle", "Révolution française", "Révolution américaine", "Révolution russe"],
+        answer: 1
+      },
+      {
+        question: "Où a eu lieu le débarquement du 6 juin 1944 ?",
+        options: ["Normandie", "Provence", "Bretagne", "Ardennes"],
+        answer: 0
+      },
+      {
+        question: "Qui a inventé l’imprimerie ?",
+        options: ["Christophe Colomb", "Gutenberg", "Galilée", "Pasteur"],
+        answer: 1
+      },
+      {
+        question: "Quelle bataille célèbre a eu lieu en 1415 ?",
+        options: ["Azincourt", "Verdun", "Austerlitz", "Marignan"],
+        answer: 0
+      },
+      {
+        question: "Quel roi fut guillotiné pendant la Révolution française ?",
+        options: ["Louis XIV", "Louis XVI", "Louis XVIII", "Charles X"],
+        answer: 1
+      },
+      {
+        question: "En quelle année a eu lieu la chute du mur de Berlin ?",
+        options: ["1989", "1945", "1968", "2001"],
+        answer: 0
+      },
+      {
+        question: "Quel peuple a construit les pyramides de Gizeh ?",
+        options: ["Les Grecs", "Les Romains", "Les Égyptiens", "Les Mayas"],
+        answer: 2
+      },
+      {
+        question: "Qui était Jeanne d’Arc ?",
+        options: [
+          "Une reine de France",
+          "Une sainte et héroïne nationale",
+          "Une exploratrice du Nouveau Monde",
+          "Une inventrice célèbre"
+        ],
+        answer: 1
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+    let passed = 0;
+    let transitioning = false;
+
+    function setProgressBar() {
+      const percent = Math.round((current) / questions.length * 100);
+      document.getElementById('progress').style.width = percent + "%";
+      document.getElementById('progress-text').textContent = percent + "%";
+    }
+
+    function animateTransition(outCallback, inCallback) {
+      const qcm = document.getElementById('qcm');
+      qcm.classList.remove('fade-in');
+      qcm.classList.add('fade-out');
+      transitioning = true;
+      setTimeout(() => {
+        outCallback && outCallback();
+        qcm.classList.remove('fade-out');
+        inCallback && inCallback();
+        qcm.classList.add('fade-in');
+        setTimeout(() => { transitioning = false; }, 300);
+      }, 420);
+    }
+
+    function showQuestion() {
+      setProgressBar();
+      const q = questions[current];
+      let html = `<div class="question">${current + 1}/10 - ${q.question}</div><div class="options">`;
+      q.options.forEach((opt, idx) => {
+        html += `<label><input type="radio" name="option" value="${idx}"> ${opt}</label>`;
+      });
+      html += `</div>
+        <button onclick="btnClick(event,submitAnswer)">Valider</button>
+        <button class="ripple" onclick="btnClick(event,skipQuestion)">Passer</button>
+      `;
+      animateTransition(() => {
+        document.getElementById('qcm').innerHTML = html;
+      }, () => {});
+    }
+
+    function btnClick(e, fn) {
+      // ripple effect
+      const btn = e.currentTarget;
+      const circle = document.createElement('span');
+      circle.className = 'ripple-effect';
+      const d = Math.max(btn.clientWidth, btn.clientHeight);
+      circle.style.width = circle.style.height = d + 'px';
+      circle.style.left = (e.clientX - btn.getBoundingClientRect().left - d/2) + 'px';
+      circle.style.top = (e.clientY - btn.getBoundingClientRect().top - d/2) + 'px';
+      btn.appendChild(circle);
+      setTimeout(() => circle.remove(), 500);
+      fn();
+    }
+
+    function submitAnswer() {
+      if (transitioning) return;
+      const radios = document.getElementsByName('option');
+      let selected = -1;
+      for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) selected = parseInt(radios[i].value);
+      }
+      if (selected === -1) {
+        alert("Veuillez choisir une réponse ou cliquez sur Passer.");
+        return;
+      }
+      if (selected === questions[current].answer) score++;
+      current++;
+      if (current < questions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function skipQuestion() {
+      if (transitioning) return;
+      passed++;
+      current++;
+      if (current < questions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById('progress').style.width = "100%";
+      document.getElementById('progress-text').textContent = "100%";
+      let note = Math.round((score / questions.length) * 20);
+      let commentaire = "";
+      if (note >= 18) commentaire = "Excellent ! Tu es un as de l’histoire !";
+      else if (note >= 14) commentaire = "Bravo, très bon niveau !";
+      else if (note >= 10) commentaire = "Pas mal, tu as des bases solides !";
+      else if (note >= 6) commentaire = "Peut mieux faire, révise encore un peu.";
+      else commentaire = "Il reste du travail, l’histoire n’a pas de secret pour toi… mais il faut réviser !";
+      let html = `
+        <div class="score">Ta note : ${note}/20</div>
+        <div class="comment">${commentaire}</div>
+        <div class="result-details">
+          <span>Réponses justes : <b>${score}</b></span> &mdash;
+          <span>Questions passées : <b>${passed}</b></span> <br>
+          <span>Questions totales : ${questions.length}</span>
+        </div>
+        <button onclick="btnClick(event,restart)">Recommencer</button>
+      `;
+      animateTransition(() => {
+        document.getElementById('qcm').innerHTML = html;
+      }, () => {});
+    }
+
+    function restart() {
+      if (transitioning) return;
+      current = 0;
+      score = 0;
+      passed = 0;
+      showQuestion();
+    }
+
+    // Démarrage QCM avec fade-in initial
+    document.getElementById('qcm').classList.add('fade-in');
+    showQuestion();
+  </script>
+</body>
+</html>
