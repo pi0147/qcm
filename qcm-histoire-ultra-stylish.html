@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>QCM Histoire</title>
+  <title>QCM Physique</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     body {
@@ -121,6 +121,34 @@
       border-color: #245393;
       box-shadow: 0 2px 8px #e0e7ff;
     }
+    .label-correct {
+      background: #eafbe8 !important;
+      border-color: #4caf50 !important;
+      color: #218838 !important;
+      font-weight: 600;
+      box-shadow: 0 1px 8px #d3f9d8;
+    }
+    .label-wrong {
+      background: #ffeaea !important;
+      border-color: #f44336 !important;
+      color: #c82333 !important;
+      font-weight: 600;
+      box-shadow: 0 1px 8px #ffd6d6;
+    }
+    .label-selected {
+      box-shadow: 0 0 0 2px #245393;
+      border-width: 2px;
+    }
+    .explanation {
+      margin-top: 12px;
+      padding: 12px;
+      background: #f4f7fa;
+      border-left: 5px solid #4e8cf7;
+      border-radius: 8px;
+      color: #245393;
+      font-size: 1.07em;
+      font-weight: 500;
+    }
     button {
       background: linear-gradient(90deg, #245393 70%, #4e8cf7 100%);
       color: #fff;
@@ -194,6 +222,79 @@
       font-size: 1.08em;
       color: #245393;
     }
+    .correction-list {
+      margin-top: 20px;
+      margin-bottom: 28px;
+    }
+    .correction-item {
+      margin-bottom: 13px;
+      background: #f6fafd;
+      border-radius: 9px;
+      box-shadow: 0 1px 8px #e0e7ff;
+      padding: 13px 15px;
+      font-size: 1.05em;
+    }
+    .correction-q {
+      font-weight: 600;
+      color: #245393;
+      margin-bottom: 7px;
+      display: block;
+    }
+    .correction-options {
+      margin-left: 8px;
+      margin-bottom: 4px;
+    }
+    .correction-good {
+      color: #218838;
+      font-weight: 600;
+      background: #eafbe8;
+      border-radius: 6px;
+      padding: 2px 9px;
+      border: 1px solid #4caf50;
+      margin-right: 7px;
+    }
+    .correction-bad {
+      color: #c82333;
+      font-weight: 600;
+      background: #ffeaea;
+      border-radius: 6px;
+      padding: 2px 9px;
+      border: 1px solid #f44336;
+      margin-right: 7px;
+    }
+    .correction-neutral {
+      color: #999;
+      background: #eee;
+      border-radius: 6px;
+      padding: 2px 9px;
+      border: 1px solid #ccc;
+      margin-right: 7px;
+    }
+    .qcm-select-list {
+      margin-top: 25px;
+      margin-bottom: 19px;
+      padding: 0;
+      list-style: none;
+      text-align: left;
+    }
+    .qcm-select-list li {
+      background: #e7f3ff;
+      border-radius: 10px;
+      margin-bottom: 13px;
+      padding: 13px 20px;
+      font-size: 1.11em;
+      color: #245393;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 1px 8px #e0e7ff;
+      transition: background 0.18s, color 0.18s;
+      border: 2px solid #e0e7ff;
+    }
+    .qcm-select-list li:hover, .qcm-select-list li.selected {
+      background: #4e8cf7;
+      color: #fff;
+      border-color: #245393;
+    }
     @media (max-width: 650px) {
       #container {
         padding: 14px;
@@ -206,7 +307,7 @@
 </head>
 <body>
   <div id="container">
-    <h1>QCM d'Histoire</h1>
+    <h1>QCM de Physique</h1>
     <div class="progress-bar">
       <div class="progress" id="progress"></div>
       <span class="progress-text" id="progress-text"></span>
@@ -214,68 +315,208 @@
     <div id="qcm"></div>
   </div>
   <script>
-    const questions = [
+    // Plusieurs QCM de physique proposés
+    const qcmList = [
       {
-        question: "Quelle année marque la chute de l’Empire romain d’Occident ?",
-        options: ["476", "800", "1492", "1789"],
-        answer: 0
+        name: "Physique générale",
+        questions: [
+          {
+            question: "Quelle est la valeur de l’accélération due à la gravité sur Terre ?",
+            options: ["9,8 m/s²", "3,2 m/s²", "6,6 m/s²", "12,5 m/s²"],
+            answer: 0
+          },
+          {
+            question: "Qui est le père de la théorie de la relativité ?",
+            options: ["Isaac Newton", "Albert Einstein", "Galilée", "Marie Curie"],
+            answer: 1
+          },
+          {
+            question: "Quel est le symbole chimique de l’eau ?",
+            options: ["O2", "H2O", "CO2", "HO"],
+            answer: 1
+          },
+          {
+            question: "Comment nomme-t-on un courant électrique qui change de sens périodiquement ?",
+            options: ["Courant continu", "Courant alternatif", "Courant statique", "Courant permanent"],
+            answer: 1
+          },
+          {
+            question: "Quel instrument mesure la pression atmosphérique ?",
+            options: ["Baromètre", "Thermomètre", "Voltmètre", "Ampèremètre"],
+            answer: 0
+          },
+          {
+            question: "Quelle particule porte une charge négative ?",
+            options: ["Proton", "Neutron", "Électron", "Photon"],
+            answer: 2
+          },
+          {
+            question: "Quel phénomène explique la formation de l’arc-en-ciel ?",
+            options: ["Réflexion", "Diffraction", "Réfraction", "Absorption"],
+            answer: 2
+          },
+          {
+            question: "Qui a découvert la radioactivité ?",
+            options: ["Pierre Curie", "Marie Curie", "Henri Becquerel", "Isaac Newton"],
+            answer: 2
+          },
+          {
+            question: "Quel est l’unité de mesure de la puissance électrique ?",
+            options: ["Volt", "Ampère", "Watt", "Ohm"],
+            answer: 2
+          },
+          {
+            question: "Dans E = mc², que représente ‘c’ ?",
+            options: [
+              "La constante de Planck",
+              "La vitesse de la lumière",
+              "La charge électrique",
+              "La masse volumique"
+            ],
+            answer: 1
+          }
+        ]
       },
       {
-        question: "Qui fut couronné empereur en 1804 ?",
-        options: ["Louis XVI", "Napoléon Bonaparte", "Charlemagne", "Henri IV"],
-        answer: 1
+        name: "Optique et Lumière",
+        questions: [
+          {
+            question: "Quel phénomène explique la dispersion de la lumière blanche par un prisme ?",
+            options: ["Réflexion", "Réfraction", "Diffraction", "Absorption"],
+            answer: 1
+          },
+          {
+            question: "Quel instrument permet d’observer les spectres lumineux ?",
+            options: ["Spectroscope", "Microscope", "Oscilloscope", "Baromètre"],
+            answer: 0
+          },
+          {
+            question: "Quelle unité mesure la fréquence d’une onde lumineuse ?",
+            options: ["Newton", "Hertz", "Candela", "Joule"],
+            answer: 1
+          },
+          {
+            question: "La lumière visible est comprise entre ?",
+            options: ["100-400 nm", "400-700 nm", "700-1200 nm", "1-10 nm"],
+            answer: 1
+          },
+          {
+            question: "Qui a démontré la nature ondulatoire de la lumière ?",
+            options: ["Newton", "Young", "Einstein", "Faraday"],
+            answer: 1
+          }
+        ]
       },
       {
-        question: "Quelle révolution débute en 1789 en France ?",
-        options: ["Révolution industrielle", "Révolution française", "Révolution américaine", "Révolution russe"],
-        answer: 1
+        name: "Électricité et Circuits",
+        questions: [
+          {
+            question: "Quel est le symbole de la résistance électrique ?",
+            options: ["R", "V", "I", "W"],
+            answer: 0
+          },
+          {
+            question: "Que mesure un ampèremètre ?",
+            options: ["La tension", "L’intensité", "La puissance", "La résistance"],
+            answer: 1
+          },
+          {
+            question: "La loi d’Ohm s’écrit ?",
+            options: ["U = R/I", "I = U/R", "U = R×I", "R = U+I"],
+            answer: 2
+          },
+          {
+            question: "Quelle unité pour la capacité d’un condensateur ?",
+            options: ["Farad", "Henry", "Ohm", "Watt"],
+            answer: 0
+          },
+          {
+            question: "Quel composant stocke temporairement de l’énergie électrique ?",
+            options: ["Résistance", "Condensateur", "Diode", "Bobine"],
+            answer: 1
+          }
+        ]
       },
       {
-        question: "Où a eu lieu le débarquement du 6 juin 1944 ?",
-        options: ["Normandie", "Provence", "Bretagne", "Ardennes"],
-        answer: 0
+        name: "Mécanique et Mouvement",
+        questions: [
+          {
+            question: "Quel est le principe fondamental de la dynamique ?",
+            options: [
+              "Action = Réaction",
+              "F = m×a",
+              "E = mc²",
+              "P = F×v"
+            ],
+            answer: 1
+          },
+          {
+            question: "La vitesse est exprimée en ?",
+            options: ["m/s", "kg", "N", "J"],
+            answer: 0
+          },
+          {
+            question: "Qui est le père de la mécanique classique ?",
+            options: ["Galilée", "Newton", "Einstein", "Pascal"],
+            answer: 1
+          },
+          {
+            question: "Quel instrument mesure la masse ?",
+            options: ["Balance", "Baromètre", "Voltmètre", "Chronomètre"],
+            answer: 0
+          },
+          {
+            question: "La trajectoire d’un projectile est généralement ?",
+            options: ["Rectiligne", "Circulaire", "Parabolique", "Elliptique"],
+            answer: 2
+          }
+        ]
       },
       {
-        question: "Qui a inventé l’imprimerie ?",
-        options: ["Christophe Colomb", "Gutenberg", "Galilée", "Pasteur"],
-        answer: 1
-      },
-      {
-        question: "Quelle bataille célèbre a eu lieu en 1415 ?",
-        options: ["Azincourt", "Verdun", "Austerlitz", "Marignan"],
-        answer: 0
-      },
-      {
-        question: "Quel roi fut guillotiné pendant la Révolution française ?",
-        options: ["Louis XIV", "Louis XVI", "Louis XVIII", "Charles X"],
-        answer: 1
-      },
-      {
-        question: "En quelle année a eu lieu la chute du mur de Berlin ?",
-        options: ["1989", "1945", "1968", "2001"],
-        answer: 0
-      },
-      {
-        question: "Quel peuple a construit les pyramides de Gizeh ?",
-        options: ["Les Grecs", "Les Romains", "Les Égyptiens", "Les Mayas"],
-        answer: 2
-      },
-      {
-        question: "Qui était Jeanne d’Arc ?",
-        options: [
-          "Une reine de France",
-          "Une sainte et héroïne nationale",
-          "Une exploratrice du Nouveau Monde",
-          "Une inventrice célèbre"
-        ],
-        answer: 1
+        name: "Thermodynamique",
+        questions: [
+          {
+            question: "Quel instrument mesure la température ?",
+            options: ["Thermomètre", "Manomètre", "Baromètre", "Voltmètre"],
+            answer: 0
+          },
+          {
+            question: "Quelle unité pour la température dans le système international ?",
+            options: ["Celsius", "Kelvin", "Fahrenheit", "Joule"],
+            answer: 1
+          },
+          {
+            question: "Le zéro absolu correspond à ?",
+            options: ["0°C", "-273,15°C", "100°C", "273,15°C"],
+            answer: 1
+          },
+          {
+            question: "La chaleur spécifique est ?",
+            options: [
+              "La quantité de chaleur pour élever de 1°C la température d’1 kg de substance",
+              "La quantité de chaleur pour fondre 1 kg de substance",
+              "L’énergie totale d’un système",
+              "La température à l’équilibre"
+            ],
+            answer: 0
+          },
+          {
+            question: "Qui a formulé la loi des gaz parfaits ?",
+            options: ["Newton", "Boyle", "Gay-Lussac", "Clapeyron"],
+            answer: 3
+          }
+        ]
       }
     ];
 
+    // Variables pour le QCM courant
+    let selectedQCM = 0;
+    let questions = qcmList[selectedQCM].questions;
     let current = 0;
     let score = 0;
     let passed = 0;
     let transitioning = false;
+    let userAnswers = [];
 
     function setProgressBar() {
       const percent = Math.round((current) / questions.length * 100);
@@ -300,7 +541,7 @@
     function showQuestion() {
       setProgressBar();
       const q = questions[current];
-      let html = `<div class="question">${current + 1}/10 - ${q.question}</div><div class="options">`;
+      let html = `<div class="question">${current + 1}/${questions.length} - ${q.question}</div><div class="options">`;
       q.options.forEach((opt, idx) => {
         html += `<label><input type="radio" name="option" value="${idx}"> ${opt}</label>`;
       });
@@ -338,7 +579,16 @@
         alert("Veuillez choisir une réponse ou cliquez sur Passer.");
         return;
       }
-      if (selected === questions[current].answer) score++;
+      userAnswers[current] = selected;
+      let good = (selected === questions[current].answer);
+      if (good) score++;
+      showCorrection(selected, good);
+    }
+
+    function skipQuestion() {
+      if (transitioning) return;
+      userAnswers[current] = null;
+      passed++;
       current++;
       if (current < questions.length) {
         showQuestion();
@@ -347,9 +597,30 @@
       }
     }
 
-    function skipQuestion() {
+    function showCorrection(selected, isGood) {
+      const q = questions[current];
+      let html = `<div class="question">${current + 1}/${questions.length} - ${q.question}</div><div class="options">`;
+      q.options.forEach((opt, idx) => {
+        let labelClass = "";
+        if (idx === q.answer) labelClass = "label-correct";
+        if (selected === idx && selected !== q.answer) labelClass = "label-wrong";
+        if (selected === idx) labelClass += " label-selected";
+        html += `<label class="${labelClass}"><input type="radio" name="option" value="${idx}" disabled ${selected === idx ? "checked" : ""}> ${opt}</label>`;
+      });
+      html += `</div>`;
+      html += `<div class="explanation">${isGood
+        ? "Bravo, bonne réponse !"
+        : `Mauvaise réponse.<br>La bonne réponse était : <b>${q.options[q.answer]}</b>`}
+        </div>
+        <button onclick="btnClick(event,nextQuestion)">Suivant</button>
+      `;
+      animateTransition(() => {
+        document.getElementById('qcm').innerHTML = html;
+      }, () => {});
+    }
+
+    function nextQuestion() {
       if (transitioning) return;
-      passed++;
       current++;
       if (current < questions.length) {
         showQuestion();
@@ -363,11 +634,11 @@
       document.getElementById('progress-text').textContent = "100%";
       let note = Math.round((score / questions.length) * 20);
       let commentaire = "";
-      if (note >= 18) commentaire = "Excellent ! Tu es un as de l’histoire !";
+      if (note >= 18) commentaire = "Excellent ! Tu es un as de la physique !";
       else if (note >= 14) commentaire = "Bravo, très bon niveau !";
       else if (note >= 10) commentaire = "Pas mal, tu as des bases solides !";
       else if (note >= 6) commentaire = "Peut mieux faire, révise encore un peu.";
-      else commentaire = "Il reste du travail, l’histoire n’a pas de secret pour toi… mais il faut réviser !";
+      else commentaire = "Il reste du travail, la physique n’a pas de secret pour toi… mais il faut réviser !";
       let html = `
         <div class="score">Ta note : ${note}/20</div>
         <div class="comment">${commentaire}</div>
@@ -376,11 +647,64 @@
           <span>Questions passées : <b>${passed}</b></span> <br>
           <span>Questions totales : ${questions.length}</span>
         </div>
-        <button onclick="btnClick(event,restart)">Recommencer</button>
+        <button onclick="btnClick(event,showCorrectionPage)">Voir la correction détaillée</button>
+        <button class="ripple" onclick="btnClick(event,restart)">Recommencer</button>
       `;
       animateTransition(() => {
         document.getElementById('qcm').innerHTML = html;
       }, () => {});
+    }
+
+    function showCorrectionPage() {
+      let html = `<div class="score" style="margin-top:6px;">Correction détaillée</div><div class="correction-list">`;
+      questions.forEach((q, i) => {
+        let userAns = userAnswers[i];
+        html += `<div class="correction-item">
+          <span class="correction-q">${i + 1}. ${q.question}</span>
+          <div class="correction-options">`;
+        q.options.forEach((opt, idx) => {
+          if (idx === q.answer) {
+            html += `<span class="correction-good">${opt}</span>`;
+          } else if (userAns === idx) {
+            html += `<span class="correction-bad">${opt}</span>`;
+          } else {
+            html += `<span class="correction-neutral">${opt}</span>`;
+          }
+        });
+        html += `</div>`;
+        if (userAns === null) {
+          html += `<div class="explanation">Question passée</div>`;
+        } else if (userAns === q.answer) {
+          html += `<div class="explanation">Bonne réponse !</div>`;
+        } else {
+          html += `<div class="explanation">Ta réponse : <b>${q.options[userAns]}</b><br>Bonne réponse : <b>${q.options[q.answer]}</b></div>`;
+        }
+        html += `</div>`;
+      });
+      html += `</div><div class="score">Découvre d'autres QCM :</div><ul class="qcm-select-list">`;
+      qcmList.forEach((qcm, idx) => {
+        html += `<li onclick="selectQCM(${idx})" ${selectedQCM===idx?"class='selected'":""}>${qcm.name}</li>`;
+      });
+      html += `</ul>
+        <button onclick="btnClick(event,restart)">Faire ce QCM à nouveau</button>
+      `;
+      animateTransition(() => {
+        document.getElementById('qcm').innerHTML = html;
+      }, () => {});
+    }
+
+    function selectQCM(idx) {
+      selectedQCM = idx;
+      questions = qcmList[selectedQCM].questions;
+      current = 0;
+      score = 0;
+      passed = 0;
+      userAnswers = [];
+      document.querySelectorAll('.qcm-select-list li').forEach((li, i) => {
+        if(i === idx) li.classList.add('selected');
+        else li.classList.remove('selected');
+      });
+      showQuestion();
     }
 
     function restart() {
@@ -388,6 +712,7 @@
       current = 0;
       score = 0;
       passed = 0;
+      userAnswers = [];
       showQuestion();
     }
 
